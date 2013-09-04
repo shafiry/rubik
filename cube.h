@@ -1,18 +1,12 @@
-                                                                     
-                                                                     
-                                                                     
-                                             
 #ifndef GUARD_Cube_H
 #define GUARD_Cube_H
 
 #include <vector>
-#include <tuple>
+#include <array>
 #include <algorithm>
-#include <map>
 #include <string>
 
-enum Adj { //Defines quality of each piece with what are adjacent to them, making searching the cube much easier for particular piece
-	//use this as reference
+enum Adj { //Defines adjacent colors that make up a piece, making searching the cube much easier for particular piece
 	WOG,
 	WOB,
 	WBR,
@@ -46,16 +40,8 @@ const int YELLOW	=	3;
 const int ORANGE	=	4;
 const int BLUE		=	5;
 
-const int TOP		=	0;
-const int FRONT		=	1;
-const int LEFT		=	2;
-const int BOTTOM	=	3;
-const int BACK		=	4;
-const int RIGHT		=	5;
-
 class cube
 {
-//constants
 public:
 	struct piece{
 		int color;
@@ -70,10 +56,11 @@ public:
 
 	typedef std::vector<std::vector<std::vector<piece>>> box;
 
+	
+	//constants
 	const static int N = 3; // NxNxN cube
 	const static int COOR = N + 2; // coordinates will be from 0, N+2
-	const static int SIDES = 6;
-	std::map<std::string, int> movements;
+	static int moves; //keeps tracks of how many moves are done
 
 private:
 	box cub; //cube
@@ -87,27 +74,13 @@ public:
 	void setadj(Adj, int, int, int, int, int, int, int, int, int);
 	void setadj(Adj, int, int, int, int, int, int);
 	void reset_cube(); //resets cube to completed
-	void set_movements();
 	void showcube();
-	void showcubeadj();
 	void shuffle_cube();
+	void solve_cube();
 	void swapfours(piece&, piece&, piece&, piece&);
-	void cwise(int);
-	void ccwise(int);
-	bool checkpiece(int, int, int, int);
-	int getcolor(int, int, int);
-	piece& findpiece(int, Adj);
-	piece& getpiece(int, int, int);
+	std::array<int, 3> findpiece(int, Adj);
 
 	//moves
-	void topc(); //top slice clockwise
-	void froc(); //front slice clockwise
-	void rigc(); //right slice clockwise
-	void botc(); //bottom slice clockwise
-	void bacc(); //back slice clockwise
-	void lefc(); //left slice clockwise
-
-
 	void lu(); //left upwards
 	void ld(); //left downwards
 	void mu(); //middle upwards
@@ -129,15 +102,40 @@ public:
 
 
 	void domove(int);
-	void domove(std::string);
-
+	void movecubeleft();
 
 	// algorithm to solve
 
-	void bottomcross();
+	//topcross
 	void settopcross();
+	void dotopcrossmove(int, Adj);
+	void dotopcornermove(int, Adj);
+
+	//top corners
 	void settopcorners();
+
+	//mid sides
+
+	void dobtor();
+	void dobtol();
+	void placemids(int, Adj);
+	void setmidpieces();
+
+	//bottom corners
+	void horswitchbotcorn();
+	bool checktopcornsdone();
+	std::array<int,4> checktopcorns();
+	void setbottomcorners();
 	
+	//finishcube
+	bool checkit(int, int, int, int, int, int, int, int, int, int, int, int);
+	bool isHorF();
+	void overandover();
+	void setupbottom();
+	void fixbmids();
+	void movebedges();
+	bool isbedges();
+	void finishcube();
 
 };
 

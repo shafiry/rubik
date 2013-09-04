@@ -1,7 +1,7 @@
-                                                                     
-                                                                     
-                                                                     
-                                             
+
+
+
+
 #include "cube.h"
 #include <iostream>
 #include <iomanip>
@@ -57,7 +57,6 @@ cube::cube(){
 		cub.push_back(lev2);
 	}
 	reset_cube();
-	set_movements();
 }
 
 cube::~cube(){
@@ -81,6 +80,8 @@ void cube::setadj(Adj _adj, int x1, int y1, int z1, int x2, int y2, int z2, int 
 void cube::setadj(Adj _adj, int x1, int y1, int z1, int x2, int y2, int z2){
 	cub[x1][y1][z1].adj = cub[x2][y2][z2].adj = _adj;
 }
+
+int cube::moves = 0;
 
 void cube::reset_cube(){
 	for(int x = 0; x < COOR; x++){
@@ -138,27 +139,6 @@ void cube::reset_cube(){
 }
 
 
-void cube::set_movements(){
-	movements["lu"] = 0;
-	movements["ld"] = 1;
-	movements["mu"] = 2;
-	movements["md"] = 3;
-	movements["ru"] = 4;
-	movements["rd"] = 5;
-	movements["nl"] = 6;
-	movements["nr"] = 7;
-	movements["el"] = 8;
-	movements["er"] = 9;
-	movements["sl"] = 10;
-	movements["sr"] = 11;
-	movements["fc"] = 12;
-	movements["fa"] = 13;
-	movements["ic"] = 14;
-	movements["ia"] = 15;
-	movements["bc"] = 16;
-	movements["ba"] = 17;
-}
-
 
 void cube::shuffle_cube(){
 	int NumOfMoves = 100; // 50 arbitrarily chosen as amount of moves needed to shuffle cube
@@ -208,67 +188,7 @@ void cube::showcube(){
 		}
 		cout << endl;
 	}
-//	printf(
-//"\
-//\
-//%8i %i %i\n\
-//%8i %i %i\n\
-//%8i %i %i\n\n\
-//\
-//%i %i %i  %i %i %i  %i %i %i\n\
-//%i %i %i  %i %i %i  %i %i %i\n\
-//%i %i %i  %i %i %i  %i %i %i\n\n\
-//\
-//%8i %i %i\n\
-//%8i %i %i\n\
-//%8i %i %i\n\n\
-//\
-//%8i %i %i\n\
-//%8i %i %i\n\
-//%8i %i %i\n\n\n\n\
-//",
-//getcolor(3,1,4),getcolor(3,2,4),getcolor(3,3,4),
-//getcolor(2,1,4),getcolor(3,1,4),getcolor(3,1,4),
-//getcolor(3,1,4),getcolor(3,1,4),getcolor(3,1,4),;
-}
-
-void cube::showcubeadj(){
-
-	for(int i = 0; i < 3; i++){
-		cout << setw(10) << "";
-		for(int j = 0; j < 3; j++){
-			cout << setw(3) << cub[3-i][j+1][4].adj;
-		}
-		cout << endl;
-	}
-	for(int i = 0; i < 3; i++){
-		for(int j = 0; j < 9; j++){
-			if( j < 3){
-				cout << setw(3) << cub[3-j][0][3-i].adj;
-			} else if(j < 6){
-				if(j == 3) cout << setw(1) << "";
-				cout << setw(3) << cub[0][j % 3 + 1][3-i].adj;
-			} else {
-				if(j == 6) cout << setw(1) << "";
-				cout << setw(3) << cub[j%3 + 1][4][3-i].adj;
-			}
-		}
-		cout << endl;
-	}
-	for(int i = 0; i < 3; i++){
-		cout << setw(10) << "";
-		for(int j = 0; j < 3; j++){
-			cout << setw(3) << cub[i+1][j+1][0].adj;
-		}
-		cout << endl;
-	}
-	for(int i = 0; i < 3; i++){
-		cout << setw(10) << "";
-		for(int j = 0; j < 3; j++){
-			cout << setw(3) << cub[4][j+1][i+1].adj;
-		}
-		cout << endl;
-	}
+	cout << endl;
 }
 
 #pragma region Movements
@@ -288,7 +208,8 @@ void cube::lu(){ //left upards
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[4][1][1+i], cub[1+i][1][0], cub[0][1][3-i], cub[3-i][1][4]);
 	}
-	cout << "Left ^" << endl;
+	moves++;
+	//cout << "Left ^" << endl;
 }
 
 void cube::ld(){ //left downards
@@ -298,7 +219,8 @@ void cube::ld(){ //left downards
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3-i][1][4], cub[0][1][3-i], cub[1+i][1][0], cub[4][1][1+i]);
 	}
-	cout << "Left v" << endl;
+	moves++;
+	//cout << "Left v" << endl;
 }
 
 void cube::ru(){//right upwards
@@ -308,7 +230,7 @@ void cube::ru(){//right upwards
 	for(int i = 0; i < 3; i++){
 		swapfours( cub[4][3][1+i],cub[1+i][3][0], cub[0][3][3-i], cub[3-i][3][4]);
 	}
-	cout << "Right ^"<< endl;
+	moves++;//cout << "Right ^"<< endl;
 }
 
 void cube::rd(){//right downwards
@@ -318,7 +240,7 @@ void cube::rd(){//right downwards
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3-i][3][4], cub[0][3][3-i], cub[1+i][3][0], cub[4][3][1+i]);
 	}
-	cout << "Right v"<< endl;
+	moves++;//cout << "Right v"<< endl;
 }
 
 void cube::nl(){ //north left
@@ -328,7 +250,7 @@ void cube::nl(){ //north left
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[1][1+i][4], cub[1][4][3-i], cub[1][3-i][0], cub[1][0][1+i]);
 	}
-	cout << "Top <-"<< endl;
+	moves++;//cout << "Top <-"<< endl;
 }
 
 void cube::nr(){ //north right
@@ -338,7 +260,7 @@ void cube::nr(){ //north right
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[1][0][1+i], cub[1][3-i][0], cub[1][4][3-i], cub[1][1+i][4]);
 	}
-	cout << "Top ->"<< endl;
+	moves++;//cout << "Top ->"<< endl;
 }
 
 void cube::sr(){ //south right
@@ -348,7 +270,7 @@ void cube::sr(){ //south right
 	for(int i = 0; i < 3; i++){
 		swapfours( cub[3][3-i][0], cub[3][4][3-i], cub[3][1+i][4], cub[3][0][1+i]);
 	}
-	cout << "Bottom ->"<< endl;
+	moves++;//cout << "Bottom ->"<< endl;
 }
 
 void cube::sl(){ //south left
@@ -358,7 +280,7 @@ void cube::sl(){ //south left
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3][0][1+i], cub[3][1+i][4], cub[3][4][3-i], cub[3][3-i][0]);
 	}
-	cout << "Bottom <-"<< endl;
+	moves++;//cout << "Bottom <-"<< endl;
 }
 
 void cube::fc(){ //front clockwise
@@ -368,7 +290,7 @@ void cube::fc(){ //front clockwise
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[0][1+i][1], cub[1+i][4][1], cub[4][3-i][1], cub[3-i][0][1]);
 	}
-	cout << "Front clockwise" << endl;
+	moves++;//cout << "Front clockwise" << endl;
 }
 
 void cube::fa(){ //front counterclockwise
@@ -378,7 +300,7 @@ void cube::fa(){ //front counterclockwise
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3-i][0][1],  cub[4][3-i][1],cub[1+i][4][1], cub[0][1+i][1]);
 	}
-	cout << "Front counterclockwise" << endl;
+	moves++;//cout << "Front counterclockwise" << endl;
 }
 
 void cube::ba(){ //back counterclockwise while facing front
@@ -388,7 +310,7 @@ void cube::ba(){ //back counterclockwise while facing front
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[0][1+i][3], cub[1+i][4][3], cub[4][3-i][3], cub[3-i][0][3]);
 	}
-	cout << "Back counterclockwise (using front as reference for direction)" << endl;
+	moves++;//cout << "Back counterclockwise (using front as reference for direction)" << endl;
 }
 
 void cube::bc(){ //back clockwise while facing front
@@ -398,20 +320,20 @@ void cube::bc(){ //back clockwise while facing front
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3-i][0][3], cub[4][3-i][3], cub[1+i][4][3], cub[0][1+i][3]);
 	}
-	cout << "Back clockwise (using front as reference for direction)" << endl;
+	moves++;//cout << "Back clockwise (using front as reference for direction)" << endl;
 }
 
 void cube::mu(){//middle upwards
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[4][2][3-i], cub[3-i][2][0], cub[0][2][1+i], cub[1+i][2][4]);
 	}
-	 cout << "Middle(between left and right) upwards" << endl;
+	moves++;//cout << "Middle(between left and right) upwards" << endl;
 }
 void cube::md(){ //middle downwards
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[1+i][2][4], cub[0][2][1+i], cub[3-i][2][0], cub[4][2][3-i]);
 	}
-	 cout << "Middle(between left and right) downwards" << endl;
+	moves++;//cout << "Middle(between left and right) downwards" << endl;
 }
 
 
@@ -419,99 +341,89 @@ void cube::el(){//equator left
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[2][0][3-i], cub[2][3-i][4], cub[2][4][1+i], cub[2][1+i][0]);
 	}
-	 cout << "Equator(between top and bottom) leftwards" << endl;
+	moves++;//cout << "Equator(between top and bottom) leftwards" << endl;
 }
 
 void cube::er(){ //equator right
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[2][1+i][0], cub[2][4][1+i], cub[2][3-i][4], cub[2][0][3-i]);
 	}
-	 cout << "Equator(between top and bottom) rightwards" << endl;
+	moves++;//cout << "Equator(between top and bottom) rightwards" << endl;
 }
 
 void cube::ic(){ //inbetween front and back clockwise
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[0][1+i][2], cub[1+i][4][2], cub[4][3-i][2], cub[3-i][0][2]);
 	}
-	 cout << "inbetween (front and back) clockwise" << endl;
+	moves++;//cout << "inbetween (front and back) clockwise" << endl;
 }
 void cube::ia(){//inbetween counterclockwise
 	for(int i = 0; i < 3; i++){
 		swapfours(cub[3-i][0][2], cub[4][3-i][2], cub[1+i][4][2], cub[0][1+i][2]);
 	}
-	 cout << "inbetween (front and back) counterclockwise" << endl;
+	moves++;//cout << "inbetween (front and back) counterclockwise" << endl;
 }
 
 void cube::domove(int b){
 	switch(b){
-		case(0):
-			lu();
-			break;
-		case(1):
-			ld();
-			break;
-		case(2):
-			mu();
-			break;
-		case(3):
-			md();
-			break;
-		case(4):
-			ru();
-			break;
-		case(5):
-			rd();
-			break;
-		case(6):
-			nl();
-			break;
-		case(7):
-			nr();
-			break;
-		case(8):
-			el();
-			break;
-		case(9):
-			er();
-			break;
-		case(10):
-			sl();
-			break;
-		case(11):
-			sr();
-			break;
-		case(12):
-			fc();
-			break;
-		case(13):
-			fa();
-			break;
-		case(14):
-			ic();
-			break;
-		case(15):
-			ia();
-			break;
-		case(16):
-			bc();
-			break;
-		case(17):
-			ba();
-			break;
-		default:
-			break;
-		}
-}
-
-void cube::domove(string mover){
-	map<string, int>::iterator b = movements.find(mover); //comes from the map<string, int> and goes to movements. Can't put string in switch statement
-	if(b != movements.end()){
-		domove(b->second);
+	case(0):
+		lu();
+		break;
+	case(1):
+		ld();
+		break;
+	case(2):
+		mu();
+		break;
+	case(3):
+		md();
+		break;
+	case(4):
+		ru();
+		break;
+	case(5):
+		rd();
+		break;
+	case(6):
+		nl();
+		break;
+	case(7):
+		nr();
+		break;
+	case(8):
+		el();
+		break;
+	case(9):
+		er();
+		break;
+	case(10):
+		sl();
+		break;
+	case(11):
+		sr();
+		break;
+	case(12):
+		fc();
+		break;
+	case(13):
+		fa();
+		break;
+	case(14):
+		ic();
+		break;
+	case(15):
+		ia();
+		break;
+	case(16):
+		bc();
+		break;
+	case(17):
+		ba();
+		break;
+	default:
+		break;
 	}
-	else
-		cout << "unsuccessful attempt" << endl << endl;
 }
-
 
 #pragma endregion
 
@@ -520,16 +432,22 @@ void cube::domove(string mover){
 // algorithm to solve cube:
 
 
-int cube::getcolor(int x, int y, int z){
-	return cub[x][y][z].color;
+void cube::solve_cube(){
+	settopcross();
+	settopcorners();
+	setmidpieces();
+	setbottomcorners();
+	setupbottom();
+	finishcube();
 }
 
-cube::piece& cube::findpiece(int colour, Adj findadj){
-	for(int i = 0; i < SIDES; i++){
-		for(int j = 0; j < N; j++){
-			for(int k = 0; k < N; k++){
+array<int,3> cube::findpiece(int colour, Adj findadj){
+	for(int i = 0; i < N+2; i++){
+		for(int j = 0; j < N+2; j++){
+			for(int k = 0; k < N+2; k++){
 				if(cub[i][j][k].adj == findadj && cub[i][j][k].color == colour){
-					return cub[i][j][k];
+					array<int, 3> ret = {i,j,k};
+					return ret;
 				}
 			}
 		}
@@ -537,62 +455,309 @@ cube::piece& cube::findpiece(int colour, Adj findadj){
 	throw domain_error("no piece exists");
 }
 
-cube::piece& cube::getpiece(int s, int r, int c){
-	return cub[s][r][c];
+
+
+void cube::movecubeleft(){
+	nl();el();sl();
 }
 
 
-
-void cube::bottomcross(){
-	//piece *dest = &getpiece(TOP, 2, 1);
-	//piece *from = &findpiece(WHITE, WR);
-	//while(*dest != *from){
-	//	cout << from->side << from->row << from->col << endl;
-	//	if(from->side == TOP){
-	//		while(*dest != *from){
-	//			nl();
-	//		}
-	//	} else if(from->side == BOTTOM){
-	//		//find whether row or column is the edge
-	//		while(from->row != 0 && from->col != 1){
-	//			sl();
-	//		}
-	//		md();sl();sl();mu();
-	//	} else {
-	//		if(from->row == 2){
-	//			while(from->side != RED){
-	//				sl();
-	//			}
-	//			sl(); md(); sr(); mu(); //alg to move from adj face up
-	//		} else if(from->row == 1){
-	//			while(from->side != RED){
-	//				el();
-	//				showcube();
-	//				cout << from->side << endl;
-	//			}
-	//			if(from->col == 2){ //appears on right side of face
-	//				er();fa();el();el();fc();
-	//			} else { // appears on left side of face
-	//				er();er();fc();el();fa();
-	//			}
-	//		} else { // appears adjacent to where it has to be
-	//			while(from->side != RED){
-	//				nl();
-	//			}
-	//			md(); sl(); sl(); mu(); sl(); md(); sr(); mu();
-	//		}
-	//	}
-	//}
+void cube::dotopcrossmove(int color, Adj adj){
+	int xto = 0, yto = 2, zto = 1;
+	while(!(cub[xto][yto][zto].color == color && cub[xto][yto][zto].adj == adj)){
+		array<int,3> coors = findpiece(color, adj);
+		if(coors[0] == 0){ //on correct side
+			if(coors[1] == 1){
+				ld();
+			} else if(coors[1] == 2){
+				ba();
+			} else if (coors[1] == 3){
+				rd();
+			}
+		} else if(coors[0] == 1){ // upper row
+			if(coors[1] == 2 && coors[2] == 0){
+				md();sl();sl();mu();sl();md();sr();mu();
+			} else if(coors[1] == 0){
+				ld();
+			} else if(coors[1] == 2){
+				ba();
+			} else if(coors[1] == 4){
+				rd();
+			}
+		}
+		else if(coors[0] == 2){ // middle row
+			while(cub[2][3][0].adj != adj)
+				el();
+			if(cub[2][3][0].color == color){
+				er();fc();el();fa();
+			} else {
+				er();fa();el();el();fc();
+			}
+		}
+		else{
+			while(cub[3][2][0].adj != adj)
+				sl();
+			if(cub[3][2][0].color == color){
+				sl();md();sr();mu();
+			} else {
+				md();sl();sl();mu();
+			}
+		}
+	}
 }
 
 
 
 void cube::settopcross(){
-	bottomcross();
+	dotopcrossmove(WHITE,WR);
+	movecubeleft();
+	dotopcrossmove(WHITE,WB);
+	movecubeleft();
+	dotopcrossmove(WHITE,WO);
+	movecubeleft();
+	dotopcrossmove(WHITE,WG);
+	movecubeleft();
+}
+
+void cube::dotopcornermove(int color, Adj adj){
+	int xto = 0, yto = 3, zto = 1;
+	while(!(cub[xto][yto][zto].color == color && cub[xto][yto][zto].adj == adj)){
+		array<int,3> coors = findpiece(color, adj);
+		if(coors[0] == 0 || coors[0] == 1){ //on top corners
+			if(cub[0][1][1].adj == adj){
+				ld();sr();lu();
+			} else if(cub[0][1][3].adj == adj){
+				lu();sl();ld();
+			} else if(cub[0][3][3].adj == adj){
+				ru();sr();rd();
+			}
+		} else { // on bottom corners
+			while(cub[3][3][0].adj != adj){
+				sr();
+			}
+			if(cub[3][3][0].color == color){
+				sl();rd();sr();ru();
+			} else if(cub[4][3][1].color == color){
+				rd();sr();ru();sr();sr();rd();sl();ru();
+			} else{
+				rd();sl();ru();
+			}
+		}
+	}
+}
+
+void cube::settopcorners(){
+	dotopcornermove(WHITE,WBR);
+	movecubeleft();
+	dotopcornermove(WHITE,WOB);
+	movecubeleft();
+	dotopcornermove(WHITE,WOG);
+	movecubeleft();
+	dotopcornermove(WHITE,WRG);
+	movecubeleft();
+}
+
+void cube::dobtor(){
+	sl();rd();sr();ru();sr();fc();sl();fa();
+}
+
+void cube::dobtol(){
+	sr();ld();sl();lu();sl();fa();sr();fc();
+}
+
+void cube::placemids(int frontcol, Adj adj){
+	while(cub[2][2][0].color != frontcol){
+		el();
+	}
+	array<int,3> coors = findpiece(frontcol, adj);
+	if(coors[0] == 2){
+		while(cub[2][3][0].adj != adj){
+			el();
+		}
+		dobtor();
+		placemids(frontcol, adj);
+	} else {
+		while(cub[3][2][0].adj != adj){
+			sl();
+		}
+		if(cub[3][2][0].color == frontcol){
+			dobtor();
+		} else {
+			nl();el();dobtol();er();nr();
+		}
+	}
+}
+
+void cube::setmidpieces(){
+	placemids(RED, BR);
+	placemids(BLUE, OB);
+	placemids(ORANGE, OG);
+	placemids(GREEN, RG);
+
+}
+
+array<int, 4> cube::checktopcorns(){
+	array<int, 4> ret;
+	ret[0] = 1;
+	cub[0][3][1].adj == YBO ? ret[1] = 1 : ret[1] = 0;
+	cub[0][3][3].adj == YRB ? ret[2] = 1 : ret[2] = 0;
+	cub[0][1][3].adj == YRG ? ret[3] = 1 : ret[3] = 0;
+	return ret;
+}
+
+bool cube::checktopcornsdone(){
+	bool ret = false;
+	while(cub[0][1][1].adj != YOG){ // YOG -> YBO -> YBR -> YRG
+		nl();
+	}
+	if(cub[0][3][1].adj == YBO && cub[0][3][3].adj == YRB && cub[0][1][3].adj == YRG){
+		ret = true;
+	}
+	return ret;
+
+}
+
+void cube::horswitchbotcorn(){
+	lu();nr();ld();fc();nl();fa();lu();nl();ld();nl();nl();
 }
 
 
-void cube::settopcorners(){
+void cube::setbottomcorners(){
+	lu();lu();mu();mu();ru();ru();
+	while(!checktopcornsdone()){
+		if(cub[0][3][1].adj != YBO){
+			if(cub[0][3][3].adj == YBO){
+				nl();
+				horswitchbotcorn();
+			} else {
+				nl();
+				nl();horswitchbotcorn();
+			}
+		} else {
+			nl();nl();
+			horswitchbotcorn();
+			nl();nl();
+		}
+	}
+
+	while(cub[2][2][0].color != ORANGE)
+		el();
+	while(cub[3][2][0].color != ORANGE)
+		sl();
+	while(cub[0][1][1].adj != YOG){
+		nl();
+	}
+
+}
+
+void cube::overandover(){
+	lu();nr();ld();nr();lu();nr();nr();ld();nr();nr();
+}
+
+bool cube::checkit(int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3, int x4, int y4, int z4){
+	return (cub[x1][y1][z1].color == YELLOW && cub[x2][y2][z2].color == YELLOW && cub[x3][y3][z3].color == YELLOW && cub[x4][y4][z4].color == YELLOW);
+
+}
 
 
+
+
+bool cube::isHorF(){
+	int missing = 0;
+	for(int i = 1; i < 4; i++){
+		for(int j = 1; j < 4; j++){
+			if(cub[0][i][j].color != YELLOW){
+				missing++;
+			}
+		}
+	}
+	if(missing == 2){
+		return true;
+	} else{
+		return false;
+	}
+}
+
+
+
+void cube::setupbottom(){
+	int i = 0;
+	while(!isHorF()){
+		if(i % 16 == 0){
+			overandover();nl();
+		} else if(i % 4 == 0){
+			overandover();
+		}
+		for(int j = 0; j < 3; j++){
+
+			if(isHorF()){
+				break;
+			}
+			overandover();
+			i++;
+		}
+		nl();
+		showcube();
+	}
+
+}
+
+bool cube::isbedges(){
+	return (cub[0][2][1].adj == YO && cub[0][3][2].adj == YB && cub[0][2][3].adj == YR && cub[0][1][2].adj == YG);
+}
+
+void cube::movebedges(){
+	fc();fc();nl();rd();ld();fc();fc();lu();ru();nl();fc();fc();
+}
+
+void cube::fixbmids(){
+	while(!isbedges()){
+		if(cub[0][2][1].adj == YO){
+			nl();nl();
+		} else if(cub[0][3][2].adj == YB){
+			nr();
+		} else if(cub[0][2][1].adj == YG){
+			nl();
+		} 
+		movebedges();
+
+
+
+		while(cub[2][2][0].color != ORANGE)
+			el();
+		while(cub[3][2][0].color != ORANGE)
+			sl();
+		while(cub[0][1][1].adj != YOG){
+			nl();
+		}
+	}
+}
+
+void cube::finishcube(){
+	while(cub[0][3][2].color == YELLOW)
+		nl();
+
+
+	//check if in H or Fish pattern
+	if(cub[0][1][2].color != YELLOW){
+		//H pattern
+		rd();el();rd();rd();el();el();rd();nr();nr();ru();er();er();rd();rd();er();ru();nr();nr();
+	} else {
+		//fish pattern
+		if(cub[0][2][1].color == YELLOW){
+			nl();nl();
+		}
+		fa();lu();rd();el();rd();rd();el();el();rd();nr();nr();ru();er();er();rd();rd();er();ru();nr();nr();ld();fc();
+	}
+	while(cub[2][2][0].color != ORANGE)
+		el();
+	while(cub[3][2][0].color != ORANGE)
+		sl();
+	while(cub[0][1][1].adj != YOG){
+		nl();
+	}
+
+	fixbmids();
+
+	lu();lu();mu();mu();ru();ru();
 }
