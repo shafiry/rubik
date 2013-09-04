@@ -189,6 +189,7 @@ void cube::showcube(){
 		cout << endl;
 	}
 	cout << endl;
+	cout << "--------------------------------------" << endl;
 }
 
 #pragma region Movements
