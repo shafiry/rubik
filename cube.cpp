@@ -25,11 +25,7 @@ cube::piece& cube::piece::operator=(const cube::piece& other){
 }
 
 bool cube::piece::operator==(const piece& other){
-	if(color == other.color && adj == other.adj){
-		return true;
-	} else {
-		return false;
-	}
+	return color == other.color && adj == other.adj;
 }
 
 bool cube::piece::operator!=(const piece& other){
@@ -650,11 +646,7 @@ bool cube::isHorF(){
 			}
 		}
 	}
-	if(missing == 2){
-		return true;
-	} else{
-		return false;
-	}
+	return missing == 2;
 }
 
 

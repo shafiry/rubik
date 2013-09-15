@@ -8,16 +8,16 @@
 using namespace std;
 
 int main(){
-	cube *y = new cube();
-	y->showcube();
-	y->shuffle_cube();
-	y->showcube();
+	cube y;
+	y.showcube();
+	y.shuffle_cube();
+	y.showcube();
 	time_t t = clock();
-	y->solve_cube();
+	y.solve_cube();
 	t = clock() - t;
-	y->showcube();
+	y.showcube();
 	cout << "Time to solve in milliseconds: " << t << endl;
-	cout << "Number of moves: " << y->moves << endl;
+	cout << "Number of moves: " << y.moves << endl;
 	
 	return 0;
 }
