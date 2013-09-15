@@ -60,7 +60,7 @@ public:
 	//constants
 	const static int N = 3; // NxNxN cube
 	const static int COOR = N + 2; // coordinates will be from 0, N+2
-	static int moves; //keeps tracks of how many moves are done
+	int moves; //keeps tracks of how many moves are done
 
 private:
 	box cub; //cube
