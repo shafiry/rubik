@@ -16,7 +16,7 @@ int main(){
 	y.solve_cube();
 	t = clock() - t;
 	y.showcube();
-	cout << "Time to solve in milliseconds: " << t << endl;
+	cout << "Time to solve in milliseconds: " << ((float)t)/CLOCKS_PER_SEC << endl;
 	cout << "Number of moves: " << y.moves << endl;
 	
 	return 0;

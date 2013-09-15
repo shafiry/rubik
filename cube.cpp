@@ -71,8 +71,6 @@ void cube::setadj(Adj _adj, int x1, int y1, int z1, int x2, int y2, int z2){
 	cub[x1][y1][z1].adj = cub[x2][y2][z2].adj = _adj;
 }
 
-int cube::moves = 0;
-
 void cube::reset_cube(){
 	for(int x = 0; x < COOR; x++){
 		for(int y = 0; y < COOR; y++){
@@ -125,7 +123,7 @@ void cube::reset_cube(){
 	setadj(YB,3,4,2,4,3,2);
 	setadj(YG,3,0,2,4,1,2);
 
-
+	moves = 0;
 }
 
 
