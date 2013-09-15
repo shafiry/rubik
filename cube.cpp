@@ -1,7 +1,3 @@
-
-
-
-
 #include "cube.h"
 #include <iostream>
 #include <iomanip>
@@ -143,7 +139,7 @@ void cube::reset_cube(){
 void cube::shuffle_cube(){
 	int NumOfMoves = 100; // 50 arbitrarily chosen as amount of moves needed to shuffle cube
 	for(int i = 0; i < NumOfMoves; i++){
-		int move = rand() % 18;
+		int move = rand() % 12;
 		domove(move);
 	}
 }
@@ -192,7 +188,7 @@ void cube::showcube(){
 	cout << "--------------------------------------" << endl;
 }
 
-#pragma region Movements
+
 
 void cube::swapfours(piece& a, piece& b, piece& c, piece& d){
 	piece temp = d;
@@ -374,51 +370,33 @@ void cube::domove(int b){
 		ld();
 		break;
 	case(2):
-		mu();
-		break;
-	case(3):
-		md();
-		break;
-	case(4):
 		ru();
 		break;
-	case(5):
+	case(3):
 		rd();
 		break;
-	case(6):
+	case(4):
 		nl();
 		break;
-	case(7):
+	case(5):
 		nr();
 		break;
-	case(8):
-		el();
-		break;
-	case(9):
-		er();
-		break;
-	case(10):
+	case(6):
 		sl();
 		break;
-	case(11):
+	case(7):
 		sr();
 		break;
-	case(12):
+	case(8):
 		fc();
 		break;
-	case(13):
+	case(9):
 		fa();
 		break;
-	case(14):
-		ic();
-		break;
-	case(15):
-		ia();
-		break;
-	case(16):
+	case(10):
 		bc();
 		break;
-	case(17):
+	case(11):
 		ba();
 		break;
 	default:
@@ -426,7 +404,7 @@ void cube::domove(int b){
 	}
 }
 
-#pragma endregion
+
 
 
 
@@ -447,7 +425,7 @@ array<int,3> cube::findpiece(int colour, Adj findadj){
 		for(int j = 0; j < N+2; j++){
 			for(int k = 0; k < N+2; k++){
 				if(cub[i][j][k].adj == findadj && cub[i][j][k].color == colour){
-					array<int, 3> ret = {i,j,k};
+					array<int, 3> ret = {{i,j,k}};
 					return ret;
 				}
 			}
