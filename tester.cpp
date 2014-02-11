@@ -11,7 +11,10 @@ using namespace std;
 int main(){
 	cube y;
 	y.showcube();
-	y.shuffle_cube();
+	cout << "How many shuffles would you like to happen?" << endl;
+	int shufs;
+	cin >> shufs;
+	y.shuffle_cube(shufs);
 	y.showcube();
 	//time_t t = clock();
 	timeval start, end;

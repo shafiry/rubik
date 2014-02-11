@@ -27,8 +27,6 @@ enum Adj { //Defines adjacent colors that make up a piece, making searching the 
 	YB,
 	YO,
 	YG,
-
-
 	NA //none
 };
 
@@ -64,21 +62,17 @@ public:
 
 private:
 	box cub; //cube
-
-public:
-
-	cube(); //constructs cube
-	~cube();
-	cube(const cube &other);
-	cube& operator=(const cube& other);
 	void setadj(Adj, int, int, int, int, int, int, int, int, int);
 	void setadj(Adj, int, int, int, int, int, int);
-	void reset_cube(); //resets cube to completed
-	void showcube();
-	void shuffle_cube();
-	void solve_cube();
 	void swapfours(piece&, piece&, piece&, piece&);
 	std::array<int, 3> findpiece(int, Adj);
+
+public:
+	cube(); //constructs cube
+	void reset_cube(); //resets cube to completed
+	void showcube();
+	void shuffle_cube(int NumOfMoves = 100);
+	void solve_cube();
 
 	//moves
 	void lu(); //left upwards

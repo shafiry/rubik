@@ -8,8 +8,6 @@
 using namespace std;
 
 
-//do piece
-
 cube::piece::piece(){}
 
 cube::piece::piece(const piece& other) : color(other.color), adj(other.adj){ }
@@ -47,20 +45,6 @@ cube::cube(){
 		cub.push_back(lev2);
 	}
 	reset_cube();
-}
-
-cube::~cube(){
-}
-
-cube::cube(const cube &other) : cub(other.cub){
-
-}
-
-cube& cube::operator=(const cube& other){
-	if (this != &other){
-		cub = other.cub;
-	}
-	return *this;
 }
 
 void cube::setadj(Adj _adj, int x1, int y1, int z1, int x2, int y2, int z2, int x3, int y3, int z3){
@@ -128,11 +112,22 @@ void cube::reset_cube(){
 
 
 
-void cube::shuffle_cube(){
-	int NumOfMoves = 100; // 50 arbitrarily chosen as amount of moves needed to shuffle cube
+void cube::shuffle_cube(int NumOfMoves){
+	if(NumOfMoves < 0)
+		NumOfMoves = 100;; // 50 arbitrarily chosen as amount of moves needed to shuffle cube
 	for(int i = 0; i < NumOfMoves; i++){
 		int move = rand() % 12;
 		domove(move);
+	}
+	int i = 0;
+	while(cub[0][2][2].color != WHITE && i < 5){
+		mu();
+		i++;
+	}
+	i = 0;
+	while(cub[0][2][2].color != WHITE && i < 5){
+		ic();
+		i++;
 	}
 }
 
@@ -642,7 +637,20 @@ bool cube::isHorF(){
 			}
 		}
 	}
-	return missing == 2;
+	if(missing == 2){
+		missing = 0;
+		if(cub[0][3][2].color != YELLOW)
+			missing++;
+		if(cub[0][2][1].color != YELLOW)
+			missing++;
+		if(cub[0][1][2].color != YELLOW)
+			missing++;
+		if(cub[0][2][3].color != YELLOW)
+			missing++;
+		return missing == 2;
+	} else {
+		return false;
+	}
 }
 
 

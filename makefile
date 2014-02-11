@@ -5,8 +5,8 @@ FLAGS=-Wall -g
 all: cube.o tester.o
 	$(COMP) $(FLAGS) cube.o tester.o -o $(EXE)
 
-cube.o: cube.cpp cube.h
-	$(COMP) $(FLAGS) -c cube.cpp cube.h
+cube.o: cube.cpp
+	$(COMP) $(FLAGS) -c cube.cpp
 
 tester.o: tester.cpp
 	$(COMP) $(FLAGS) -c tester.cpp
